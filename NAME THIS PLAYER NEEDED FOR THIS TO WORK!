@@ -24,7 +24,7 @@ class player:
         #left move
         if keys[LEFT] == True:
             self.vx = -3
-            print("LEFT MOVEMENT")
+           # print("LEFT MOVEMENT")
         #right move
         elif keys[RIGHT] == True:
             self.vx = 3
@@ -34,34 +34,32 @@ class player:
 
         if keys[DOWN] == True:
             self.vy = 3
-            print("Down")
+           # print("Down")
 
         elif keys [UP] == True:
             self.vy = -3
-            print("up")
+           # print("up")
 
         else:
             self.vy = 0
 
         #left collision :D
-        if map[int((self.ypos- 10) / 50)][int((self.xpos - 10) / 50)] == 2:
+        if map[int((self.ypos) / 50)][int((self.xpos - 1) / 50)] == 2 or map[int((self.ypos) / 50)][int((self.xpos - 10) / 50)] == 1 or map[int((self.ypos) / 50)][int((self.xpos - 10) / 50)] == 3:
             self.xpos+=3 #ypos update
+            
         #right collision
-        if map[int((self.ypos) / 50)][int((self.xpos + 30 + 5) / 50)] == 2:
+        if map[int((self.ypos) / 50)][int((self.xpos + 29) / 50)] == 2:
             self.xpos-=3
-        #left collision :D
-        if map[int((self.ypos- 10) / 50)][int((self.xpos - 10) / 50)] == 3:
-            self.xpos+=3 #ypos update
-        #right collision
-        if map[int((self.ypos) / 50)][int((self.xpos + 30 + 5) / 50)] == 3:
-            self.xpos-=3
+  
         
-        #left collision :D
-        if map[int((self.ypos- 10) / 50)][int((self.xpos - 10) / 50)] == 1:
-            self.xpos+=3 #ypos update
-        #right collision
-        if map[int((self.ypos) / 50)][int((self.xpos + 30 + 5) / 50)] == 1:
-            self.xpos-=3
+        #up collision :D
+        if map[int((self.ypos-3) / 50)][int((self.xpos) / 50)] == 2:
+            self.ypos+=3 #ypos update
+            print("colliding up")
+        #down collision
+        if map[int((self.ypos+30) / 50)][int((self.xpos) / 50)] == 2 or map[int((self.ypos+30) / 50)][int((self.xpos) / 50)] == 1 or map[int((self.ypos+30) / 50)][int((self.xpos) / 50)] == 3:
+            self.ypos-=3
+            print("colliding down")
         
         self.xpos+=self.vx #update player xpos
         self.ypos+=self.vy #update player xpos
