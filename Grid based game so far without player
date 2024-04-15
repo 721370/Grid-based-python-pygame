@@ -7,6 +7,17 @@ clock = pygame.time.Clock()#clok
 gameover = False#Game loop variable
 
 p1 = player()
+#mouse input
+xpos = 0
+ypos = 0
+mousePos = (xpos, ypos)
+mouseDown = False
+
+#game state variable
+state = 1 #1 is menu, 2 is playing, 3 is credits
+button1 = False
+#add more buttons here!
+quitGame = False
 
 #constands
 LEFT = 0
@@ -48,6 +59,15 @@ while not gameover:#Game loop-----------------------------
         if event.type == pygame.QUIT:
             gameover = True
 
+        #keeps track of mouse position
+        if event.type == pygame.MOUSEMOTION:
+            mousePos = event.pos
+        #keeps track of mouse button
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            mouseDown = True
+        if event.type == pygame.MOUSEBUTTONUP:
+            mouseDown = False
+
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
                 keys[LEFT] = True
@@ -69,22 +89,51 @@ while not gameover:#Game loop-----------------------------
             elif event.key == pygame.K_DOWN:
                 keys[DOWN] = False
 
+        #keeps track of mouse position
+        if event.type == pygame.MOUSEMOTION:
+            mousePos = event.pos
+        #keeps track of mouse button
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            mouseDown = True
+        if event.type == pygame.MOUSEBUTTONUP:
+            mouseDown = False
+
+        #keyboard input (more needed for actual game)
+        if event.type == pygame.KEYDOWN: 
+            if event.key == pygame.K_q:
+                quitGame = True
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_q:
+                quitGame = False
+                
+
     #PHYSICS------------------------------------------------
     p1.move(keys, map)
-
+    print(mousePos)
+    #menu state 1:D-----------------------------------------
+    if state == 1 and mousePos[0]>100 and mousePos[0]<300 and mousePos[1]>400 and mousePos[1]<550:
+        button1 = True
+    else:
+        button1 = False
+    
+    if state == 1 and button1 == True: #pressing quit takes back menu
+        state = 1
+    
     #RENDER-------------------------------------------------
     
     screen.fill((0,0,0))
     #draw map
-    for i in range(20):
-        for j in range(20):
-            if map[i][j] == 1:
-                screen.blit(dirt, (j * 50, i * 50), (0, 0, 50, 50))
-            if map[i][j] == 2:
-                screen.blit(brick, (j * 50, i * 50), (0, 0, 50, 50))
-            if map[i][j] == 3:
-                screen.blit(emerald, (j * 50, i * 50), (0, 0, 50, 50))
-        p1.draw(screen)
+    if state == 2:
+
+        for i in range(20):
+            for j in range(20):
+                if map[i][j] == 1:
+                    screen.blit(dirt, (j * 50, i * 50), (0, 0, 50, 50))
+                if map[i][j] == 2:
+                    screen.blit(brick, (j * 50, i * 50), (0, 0, 50, 50))
+                if map[i][j] == 3:
+                    screen.blit(emerald, (j * 50, i * 50), (0, 0, 50, 50))
+            p1.draw(screen)
 
     pygame.display.flip()#pixels on screen
 
