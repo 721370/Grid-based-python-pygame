@@ -109,20 +109,39 @@ while not gameover:#Game loop-----------------------------
 
     #PHYSICS------------------------------------------------
     p1.move(keys, map)
-    print(mousePos)
-    #menu state 1:D-----------------------------------------
+    #print(mousePos)
+
+    #state 1: menu state!------------------------------
     if state == 1 and mousePos[0]>100 and mousePos[0]<300 and mousePos[1]>400 and mousePos[1]<550:
         button1 = True
     else:
         button1 = False
-    
-    if state == 1 and button1 == True: #pressing quit takes back menu
+            
+    if state == 1 and button1 == True and mouseDown == True:
+        state = 2
+    #state 2: playing state!---------------------------
+    if state == 2 and quitGame == True: #pressing quit takes you back to menu
         state = 1
+
     
+  
+        
+
     #RENDER-------------------------------------------------
     
     screen.fill((0,0,0))
-    #draw map
+ 
+
+    #menu state-------------------------------
+    if state == 1:
+        if button1 == False:
+            pygame.draw.rect(screen, (100, 230, 100), (100, 400, 200, 150))
+        else:
+            pygame.draw.rect(screen, (200, 250, 200), (100, 400, 200, 150))
+
+
+
+    #state 2: the map state--------------
     if state == 2:
 
         for i in range(20):
