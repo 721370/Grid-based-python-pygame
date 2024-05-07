@@ -1,12 +1,16 @@
 import pygame
 from player import player
+from fireball import fireball
+from enemy import enemy
 pygame.init()
 pygame.display.set_caption("Grid game!")#window
 screen = pygame.display.set_mode((1000, 1000))#SCREREEN
 clock = pygame.time.Clock()#clok
 gameover = False#Game loop variable
 
+e1 = enemy()
 p1 = player()
+f1 = fireball()
 #mouse input
 xpos = 0
 ypos = 0
@@ -26,7 +30,7 @@ UP = 2
 DOWN = 3
 SPACE = 4
 W = 5
-keys = [False, False, False, False, False] #Holds keys
+keys = [False, False, False, False, False, False] #Holds keys
 
 map = [[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
        [2,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,2],
@@ -77,6 +81,12 @@ while not gameover:#Game loop-----------------------------
                 keys[UP] = True
             elif event.key == pygame.K_DOWN:
                 keys[DOWN] = True
+            elif event.key == pygame.K_SPACE:
+                keys[SPACE] = True
+                print("space is pressed!")
+            if event.key == pygame.K_q:
+                quitGame = True
+               
 
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT:
@@ -88,28 +98,21 @@ while not gameover:#Game loop-----------------------------
                 keys[UP] = False
             elif event.key == pygame.K_DOWN:
                 keys[DOWN] = False
+            elif event.key == pygame.K_SPACE:
+                keys[SPACE] = False
+   
 
-        #keeps track of mouse position
-        if event.type == pygame.MOUSEMOTION:
-            mousePos = event.pos
-        #keeps track of mouse button
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            mouseDown = True
-        if event.type == pygame.MOUSEBUTTONUP:
-            mouseDown = False
+            
 
-        #keyboard input (more needed for actual game)
-        if event.type == pygame.KEYDOWN: 
-            if event.key == pygame.K_q:
-                quitGame = True
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_q:
-                quitGame = False
                 
 
     #PHYSICS------------------------------------------------
     p1.move(keys, map)
+    f1.move()
     #print(mousePos)
+    
+    if keys[SPACE]==True:
+        f1.shoot(p1.xpos, p1.ypos, p1.direction)
 
     #state 1: menu state!------------------------------
     if state == 1 and mousePos[0]>100 and mousePos[0]<300 and mousePos[1]>400 and mousePos[1]<550:
@@ -130,7 +133,8 @@ while not gameover:#Game loop-----------------------------
     #RENDER-------------------------------------------------
     
     screen.fill((0,0,0))
- 
+    if f1.isAlive == True:
+            f1.draw(screen)
 
     #menu state-------------------------------
     if state == 1:
@@ -152,8 +156,11 @@ while not gameover:#Game loop-----------------------------
                     screen.blit(brick, (j * 50, i * 50), (0, 0, 50, 50))
                 if map[i][j] == 3:
                     screen.blit(emerald, (j * 50, i * 50), (0, 0, 50, 50))
-            p1.draw(screen)
-
+        p1.draw(screen)
+        if f1.isAlive==True:
+            f1.draw(screen)
+        if e1.isAliveE==True:
+            e1.draw(screen)
     pygame.display.flip()#pixels on screen
 
 pygame.quit() #Dead loop
