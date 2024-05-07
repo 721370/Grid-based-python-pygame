@@ -1,0 +1,43 @@
+import pygame
+import random
+#constraint
+LEFT = 0
+RIGHT = 1
+UP = 2
+DOWN = 3
+
+class enemy:
+    def __init__(self):
+        
+        #player variables
+        self.xpos = 500
+        self.ypos = 115
+        self.isAliveE = True
+        
+        self.direction = DOWN
+
+
+    def draw(self, screen):
+        pygame.draw.rect(screen, (0, 0, 255), (self.xpos, self.ypos, 30, 30))
+
+    def move(self):
+    #randomly wander:
+        if ticker % 40 == 0: #mess with this number to make him change direction more or less often!
+            num = random.randrange(0, 4)
+            if num == 0:
+                self.direction = RIGHT
+            elif num == 1:
+                self.direction = LEFT
+            elif num == 2:
+                self.direction = UP
+            elif num == 3:
+                self.direction = DOWN
+
+        #check if player is direct line of sight
+        if abs(int(py/50) - int(self.ypos/50))<2: #check that player and enemy are in same row
+            if px < self.xpos: #check that player is to the left of enemy
+                self.xpos -= 5
+                self.direction = LEFT
+            else:
+                self.xpos+=5
+                self.direction = RIGHT
