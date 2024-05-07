@@ -1,3 +1,4 @@
+
 import pygame
 
 #constraint
@@ -12,10 +13,11 @@ class player:
     def __init__(self):
         
         #player variables
-        self.xpos = 400
-        self.ypos = 415
+        self.xpos = 235
+        self.ypos = 115
         self.vx = 0
         self.vy = 0
+        self.direction = DOWN
 
     def draw(self,screen):
         pygame.draw.rect(screen, (255, 0, 255), (self.xpos, self.ypos, 30, 30))
@@ -23,20 +25,24 @@ class player:
     def move(self, keys, map):
         #left move
         if keys[LEFT] == True:
+            self.direction = LEFT
             self.vx = -3
            # print("LEFT MOVEMENT")
         #right move
         elif keys[RIGHT] == True:
+            self.direction = RIGHT
             self.vx = 3
         #Turn off x velocity
         else:
             self.vx = 0
 
         if keys[DOWN] == True:
+            self.direction = DOWN
             self.vy = 3
            # print("Down")
 
         elif keys [UP] == True:
+            self.direction = UP
             self.vy = -3
            # print("up")
 
